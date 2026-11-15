@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ course.name }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <div class="jumbotron">
+        <h1 class="display-4">{{ course.name }}</h1>
+        <p class="lead">{{ course.description }}</p>
+    </div>
+
+    <h2>Lessons</h2>
+    {% if course.lesson_set.all %}
+    <div class="accordion" id="lessonAccordion">
+        {% for lesson in course.lesson_set.all %}
+        <div class="card">
+            <div class="card-header" id="heading{{ lesson.id }}">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button"
+                            data-toggle="collapse"
+                            data-target="#collapse{{ lesson.id }}">
+                        Lesson {{ lesson.order }}: {{ lesson.title }}
+                    </button>
+                </h5>
+            </div>
+            <div id="collapse{{ lesson.id }}" class="collapse"
+                 data-parent="#lessonAccordion">
+                <div class="card-body">
+                    {{ lesson.content }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No lessons available.</p>
+    {% endif %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
